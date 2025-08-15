@@ -1,13 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "*.go": {
-      "runtime": "vercel-go@0.5.2",
-      "memory": 1024,
-      "maxDuration": 10
+  "build": {
+    "env": {
+      "GO_BUILD_FLAGS": "-ldflags '-s -w'"
     }
-  },
-  "buildCommand": "go build -o main main.go",
-  "installCommand": "go get -d ./...",
-  "outputDirectory": "dist"
+  }
 }
