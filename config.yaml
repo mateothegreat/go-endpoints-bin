@@ -1,0 +1,10 @@
+http:
+  enabled: true
+  port: 8080
+
+monitoring:
+  prometheus:
+    enabled: true
+  tracing:
+    enabled: false
+    collector: localhost:4317
