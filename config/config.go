@@ -2,7 +2,9 @@
 package config
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/mateothegreat/go-config/config"
 	"github.com/mateothegreat/go-config/plugins/sources"
@@ -50,8 +52,28 @@ func Setup() *BaseConfig {
 
 	cfg = &BaseConfig{}
 
-	err := config.LoadWithPlugins(
-		config.FromYAML(sources.YAMLOpts{Path: "config.yaml"}),
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("Failed to get current working directory: %v", err)
+	}
+
+	filelisting, err := os.ReadDir(cwd + "/..")
+	if err != nil {
+		log.Fatalf("Failed to read directory: %v", err)
+	}
+
+	for _, file := range filelisting {
+		fmt.Println(file.Name())
+	}
+
+	multilog.Info("config", "setup", map[string]any{
+		"config":      cfg,
+		"cwd":         cwd,
+		"filelisting": filelisting,
+	})
+
+	err = config.LoadWithPlugins(
+		config.FromYAML(sources.YAMLOpts{Path: cwd + "/config.yaml"}),
 		config.FromEnv(sources.EnvOpts{Prefix: "SIMPLE"}),
 	).Build(cfg)
 	if err != nil {
@@ -59,7 +81,9 @@ func Setup() *BaseConfig {
 	}
 
 	multilog.Info("config", "setup", map[string]any{
-		"config": cfg,
+		"config":      cfg,
+		"cwd":         cwd,
+		"filelisting": filelisting,
 	})
 
 	return cfg
