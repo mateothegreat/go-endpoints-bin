@@ -34,6 +34,8 @@ Request body:
 
 ## gRPC 
 
+| Purpose                                           | Method | Path             | Description          |
+
 ## WebSocket
 
 ## WebRTC
