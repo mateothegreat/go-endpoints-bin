@@ -12,8 +12,11 @@ import (
 	"github.com/mateothegreat/go-mock-endpoints/monitoring"
 )
 
-// Start - starts the http server.
-func Start() error {
+// Create returns a new echo instance.
+//
+// Returns:
+// - The echo instance.
+func Create() *echo.Echo {
 	conf := config.Setup()
 
 	e := echo.New()
@@ -46,6 +49,17 @@ func Start() error {
 	}
 
 	paths.Router(e)
+
+	return e
+}
+
+// Start starts the http server.
+//
+// Returns:
+// - The error.
+func Start() error {
+	e := Create()
+	conf := config.Setup()
 
 	return e.Start(fmt.Sprintf(":%d", conf.HTTP.Port))
 }
