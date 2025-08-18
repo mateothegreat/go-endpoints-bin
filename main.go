@@ -2,6 +2,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/mateothegreat/go-mock-endpoints/config"
 	"github.com/mateothegreat/go-mock-endpoints/http"
 	"github.com/mateothegreat/go-mock-endpoints/monitoring"
@@ -12,7 +14,7 @@ import (
 func main() {
 	conf := config.Setup()
 	_ = setup.Setup()
-
+	fmt.Printf("conf: %+v\n", conf)
 	monitoring.Start()
 
 	if conf.HTTP.Enabled {
